@@ -1,0 +1,14 @@
+#summary Processus
+#labels Phase-Design
+
+= Introduction =
+
+Les principaux processus
+
+= Details =
+
+  * main
+    ** pDirection
+    ** pAdministration
+    ** pAccueil
+    ** pGuichet
