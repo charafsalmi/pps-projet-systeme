@@ -5,9 +5,5 @@
  *      Author: Sophie SURMONT
  */
 
-#include "fork_process.h"
+#include "type_definitions.h"
 
-void call_process_padministration(int *Tadmin_accueil)
-{
-
-}

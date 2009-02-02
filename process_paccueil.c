@@ -8,8 +8,4 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "fork_process.h"
-
-void call_process_paccueil(int *Tadmin_accueil, int *Taccu_guichet)
-{
-}
+#include "type_definitions.h"

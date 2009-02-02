@@ -5,9 +5,5 @@
  *      Author: François HAURIT
  */
 
-#include "fork_process.h"
+#include "type_definitions.h"
 
-void call_process_pdirection()
-{
-
-}

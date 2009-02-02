@@ -17,7 +17,7 @@
 #include <sys/types.h>
 #include <signal.h>
 
-#include "fork_process.h"
+#include "type_definitions.h"
 
 /*
  * Précisions :
@@ -28,90 +28,6 @@
  *
  */
 
-#define NB_max_voyages            5
-#define Tmax_nom_produit        8
-#define Tmax_nom_utilisateur    7
-#define NB_max_guichets            5
-
-/*
- * Format d'un poste réservation
- */
-struct reservation
-{
-    /*
-     * Nom du réservataire
-     * */
-    char identu[Tmax_nom_utilisateur];
-
-    /*
-     * Pas plus de 255 places réservées par client
-     */
-    char nb_places;
-};
-typedef struct reservation Reservation;
-
-/*
- * Format d'un poste du fichier de description de voyages
- */
-struct produit
-{
-    /*
-     * Nom du produit
-     */
-    char identp[Tmax_nom_produit];
-    int nb_max_places;
-    int nb_places_libres;
-};
-typedef struct produit Produit;
-
-/*
- * Format d'une transaction client
- */
-struct transac
-{
-    /*
-     * Nom du client
-     */
-    char identu[Tmax_nom_utilisateur];
-    /*
-     * Nom du voyage
-     */
-    char identp[Tmax_nom_produit];
-    /*
-     * Code de transaction :
-     *     - R)éservation
-     *     - C)onsultation
-     *     - L)ibération
-     */
-    char code;
-    /*
-     * N'est utilisé que pour le code R
-     */
-    char nb_places;
-};
-typedef struct transac Transac;
-
-/*
- * Format d'une transaction administration
- */
-struct trans_ad
-{
-    /*
-     * Nom du voyage
-     */
-    char identp[Tmax_nom_produit];
-    /*
-     * Code de transaction :
-     *     - C)réation
-     *  - F)ermeture
-     */
-    char code;
-    /*
-     * N'est utilisé que pour le code C
-     */
-    int nb_max_places;
-};
-typedef struct trans_ad Trans_ad;
 
 /**
  * point d'entrée de l'application
@@ -122,19 +38,17 @@ typedef struct trans_ad Trans_ad;
 int main(int nbarg, char *tbarg[])
 {
     /*
-     * Si il n'y a pas tous les arguments, on quitte.
+     * Si il n'y a pas tous les arguments ou si le nombre de guichets est
+     * supérieur à NB_max_guichets, on quitte.
      */
-    if(nbarg != 3)
-        exit(1);
-
-    /*
-     * Si le nombre de guichets est supérieur à NB_max_guichets, on quitte.
-     */
-    if(atoi(tbarg[2]) > NB_max_guichets || atoi(tbarg[1]) < 1)
+    if(nbarg != 3 || (atoi(tbarg[2]) > NB_max_guichets || atoi(tbarg[1]) < 1) )
     {
-          perror("Nombre de guichets incorrect \n");
-          printf("Choisissez un nombre entre 1 et %d\n", NB_max_guichets);
-          exit(errno);
+    	printf("agence: usage: agence f<fichier1> f<fichier2> <nbguichet> \n");
+    	printf("Options:\n");
+    	printf("\tf<fichier1>\t\tChemin vers le fichier …\n");
+    	printf("\tf<fichier2>\t\tChemin vers le fichier …\n");
+    	printf("\t<nbguichet>\t\tNombre de guichets entre 1 et %d\n", NB_max_guichets);
+        exit(1);
     }
 
     /*
@@ -166,6 +80,7 @@ int main(int nbarg, char *tbarg[])
      * Variables algorithmiques
      */
     char code_consultation ='\0';
+    code_consultation ='\0';
 
 
     /*
@@ -174,7 +89,7 @@ int main(int nbarg, char *tbarg[])
     if((pidDirection = fork()) < 0)
     {
         perror("Erreur dans la création du processus Pdirection.");
-        exit(errno);
+        exit(1);
     }
     else if(pidDirection == 0)
     {
@@ -188,7 +103,7 @@ int main(int nbarg, char *tbarg[])
 			if((pidAccueil = fork()) < 0)
 			{
 				perror("Erreur dans la création du processus Paccueil.");
-				exit(errno);
+				exit(1);
 			}
 			else if(pidAccueil == 0)
 			{
@@ -215,13 +130,13 @@ int main(int nbarg, char *tbarg[])
 							close(Taccu_guichet[1]);
 							close(Tadmin_accueil[0]);
 							close(Tadmin_accueil[1]);
-							call_process_pguichet(i, Taccu_guichet);
+							//execl("process_guichet");
 							exit (1);
 						}
 					}
 				close(Taccu_guichet[0]);
 				close(Tadmin_accueil[1]);
-				call_process_paccueil(Tadmin_accueil, Taccu_guichet);
+				//execl();
 				exit (1) ;
 			}
 
@@ -243,14 +158,14 @@ int main(int nbarg, char *tbarg[])
 				close(Taccu_guichet[0]);
 				close(Taccu_guichet[1]);
 				close(Tadmin_accueil[0]);
-				call_process_padministration(Tadmin_accueil[1],pidAccueil);
+				//execl();
 			}
 
 		close(Taccu_guichet[0]);
 		close(Taccu_guichet[1]);
 		close(Tadmin_accueil[0]);
 		close(Tadmin_accueil[1]);
-		call_process_pdirection();
+		//execl();
 
     }
 

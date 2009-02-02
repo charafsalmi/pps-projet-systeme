@@ -5,9 +5,13 @@
  *      Author: Charaf SALMI
  */
 
-#include "fork_process.h"
-
-void call_process_pguichet(const unsigned short int i, int *Taccu_guichet)
-{
-
-}
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <string.h>
+#include <stdio.h>
+#include <errno.h>
+#include <stdlib.h>
+#include <signal.h>
+#include "type_definitions.h"
