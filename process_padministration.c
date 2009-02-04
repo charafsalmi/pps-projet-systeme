@@ -43,11 +43,11 @@ int main(int nbarg , char* tbarg[]){
     int fVoy;
 	int verif_lecture;
 	int finAdmin = 0;
-	
+
 	printf("%s \n",tbarg[1]);
 	struct Trans_ad Tab_trans;
 	fTransac_ad = open(tbarg[1],O_RDONLY);
-	
+
 	do{
 		verif_lecture = read(fTransac_ad,&Tab_trans, sizeof(Tab_trans));
 		if ( verif_lecture != 0 )
@@ -74,12 +74,12 @@ int main(int nbarg , char* tbarg[]){
 			printf("erreur de lecture \n");
 			finAdmin=1;
 		}
-		
-		
+
+
 	}
 	while(finAdmin == 0);
-	
-	
-	close(fTransac_ad);
-}
 
+
+	close(fTransac_ad);
+	return 0;
+}

@@ -9,3 +9,16 @@
 #include <stdlib.h>
 
 #include "type_definitions.h"
+
+int main()
+{
+	/*
+	 * Début du programme
+	 */
+
+
+	/*
+	 * Fin du programme
+	 */
+	return 0;
+}
