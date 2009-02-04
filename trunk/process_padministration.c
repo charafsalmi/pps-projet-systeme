@@ -12,29 +12,8 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include "type_definitions.h"
 
-#define NB_max_voyages            5
-#define Tmax_nom_produit        8
-#define Tmax_nom_utilisateur    7
-#define NB_max_guichets            5
-
-struct Trans_ad
-{
-    /*
-     * Nom du voyage
-     */
-    char identp[Tmax_nom_produit];
-    /*
-     * Code de transaction :
-     *     - C)réation
-     *  - F)ermeture
-     */
-    char code;
-    /*
-     * N'est utilisé que pour le code C
-     */
-    int nb_max_places;
-};
 
 
 
@@ -45,7 +24,7 @@ int main(int nbarg , char* tbarg[]){
 	int finAdmin = 0;
 
 	printf("%s \n",tbarg[1]);
-	struct Trans_ad Tab_trans;
+	struct Transaction_Admin Tab_trans;
 	fTransac_ad = open(tbarg[1],O_RDONLY);
 
 	do{

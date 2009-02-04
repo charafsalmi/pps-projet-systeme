@@ -7,7 +7,6 @@
 
 #define NB_max_voyages			5
 #define Tmax_nom_produit        8
-#define Tmax_nom_utilisateur	7
 #define NB_max_guichets			5
 #define Tmax_nom_utilisateur	20
 
