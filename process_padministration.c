@@ -6,14 +6,9 @@
  */
 
 
-#include <stdio.h>
-#include <stdlib.h>
-
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
 #include "type_definitions.h"
 
+int id_tube;
 
 
 void creation_voyage(struct Transaction_Admin t/*s, int tube, int pid*/){
@@ -22,6 +17,7 @@ void creation_voyage(struct Transaction_Admin t/*s, int tube, int pid*/){
 	struct reservation r;
 	char nomfichier [Tmax_nom_produit + 20];
 	int f;
+	
 	
 	strcpy(p.identp, t.identp);
 	p.nb_max_places = t.nb_max_places;
@@ -52,27 +48,39 @@ void creation_voyage(struct Transaction_Admin t/*s, int tube, int pid*/){
 
 }
 
-void sup_voyage(struct Produit tmp){
+void sup_voyage(char* voy){
 	int f;
+	flock(f,LOCK_EX);
 	f = open("fVoyages", O_RDWR);
 	lseek(f, 0, SEEK_SET);
 	int erreur=0;
+	Produit tmp;
 	
-	while(erreur!=-1 && (strcmp(tmp.identp, voy)!=0){
-		erreur=read(f, &erreur, sizeof(Produit));
+	while(erreur!=-1 && (strcmp(tmp.identp, voy))!=0)
+	{
+		erreur=read(f, &tmp, sizeof(Produit));
 	}
-	while((read(f, &tmp, sizeof(Produit))) > 0){
+	while((read(f, &tmp, sizeof(Produit))) > 0)
+	{
 		lseek(f, (-sizeof(Produit))*2, SEEK_CUR);
 		write(f, &tmp, sizeof(Produit));
-		lseek(fReserv,(sizeof(Produit))*2, SEEK_CUR);
+		lseek(f,(sizeof(Produit))*2, SEEK_CUR);
 	}
 	char* s=EOF;
 	write (f, &s, sizeof(s));
 	
 	close(f);
+	flock(f,LOCK_UN); 
 }
 
+/*
+* cette fonction sera appelé quand le processus Padmin recevra un signal pour qu'il s'arrète
+*/
 
+void argh(){
+	printf("arggggg\n");
+	close(id_tube);
+}
 
 
 int main(int nbarg , char* tbarg[]){
@@ -80,6 +88,13 @@ int main(int nbarg , char* tbarg[]){
     int fVoy;
 	int verif_lecture;
 	int finAdmin = 0;
+	struct sigaction sigCreve;
+
+	sigCreve.sa_handler=argh;
+	sigCreve.sa_flags=0;
+	sigCreve.sa_restorer=NULL;
+
+	sigaction(SIGUSR1,&sigCreve,NULL);
 
 	printf("%s \n",tbarg[1]);
 	struct Transaction_Admin Tab_trans;
@@ -120,6 +135,7 @@ int main(int nbarg , char* tbarg[]){
 
 
 	close(fTransac_ad);
+	argh();
 	return 0;
 }
 

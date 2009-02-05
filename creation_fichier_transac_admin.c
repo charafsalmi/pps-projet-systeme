@@ -1,8 +1,11 @@
+/*
+* pour créer le fichier de transaction pour l'administration (un enregistrement par exécution)
+* auteur : Sophie
+*/
+
 #include "type_definitions.h"
 
-/*
-* pour créer le fichier de transaction pour l'administration
-*/
+
 int main(){
 	struct Transaction_Admin t;
 	int f,i;

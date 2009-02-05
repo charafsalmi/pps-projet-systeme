@@ -2,7 +2,7 @@
  * type_definitions.h
  *
  *  Created on: 2 févr. 2009
- *      Author: charaf
+ *      Author: all
  */
 #include <fcntl.h>
 #include <errno.h>
