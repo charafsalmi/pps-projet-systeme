@@ -28,8 +28,10 @@ int main(int nbarg , char* tbarg[]){
 	fTransac_ad = open(tbarg[1],O_RDONLY);
 
 	do{
+		
 		verif_lecture = read(fTransac_ad,&Tab_trans, sizeof(Tab_trans));
-		if ( verif_lecture != 0 )
+		
+		if ( verif_lecture > 0 )
 		{
 			switch(Tab_trans.code)
 			{
@@ -45,17 +47,16 @@ int main(int nbarg , char* tbarg[]){
 					break;
 				}
 			}
-			//printf("%s | %c | %d \n",Tab_trans.identp ,Tab_trans.code, Tab_trans.nb_max_places);
-			printf("%8s \n",Tab_trans.identp);
-			printf("%c \n",Tab_trans.code);
-			printf("%i \n",Tab_trans.nb_max_places);
+			printf("%s | %c | %d \n",Tab_trans.identp ,Tab_trans.code, Tab_trans.nb_max_places);
+
 		}
 		else
 		{
 			printf("erreur de lecture \n");
 			finAdmin=1;
 		}
-
+		//verif_lecture = lseek(fTransac_ad, sizeof(Tab_trans), SEEK_CUR);
+		//if (verif_lecture == -1) { printf("le lseek ne marche pas\n"); finAdmin=1;}
 
 	}
 	while(finAdmin == 0);

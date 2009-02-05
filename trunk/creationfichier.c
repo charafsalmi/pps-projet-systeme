@@ -1,15 +1,11 @@
 #include "type_definitions.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
 
 int main(){
 	struct Transaction_Admin t;
 	int f;
-	f = open("scenar", O_WRONLY | O_CREAT);
+	f = open("scenar", O_WRONLY | O_CREAT,S_IRWXU);
+	lseek(f, 0, SEEK_END);
 	printf ("voyage\n");
 	scanf("%s", t.identp);
 	t.code='C';
