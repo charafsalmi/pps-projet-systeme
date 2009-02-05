@@ -11,7 +11,10 @@ guichet :
 	gcc process_pguichet.c -o pguichet -g
 	
 create :
-	gcc creationfichier.c -o create -g
+	gcc creation_fichier_transac_admin.c -o create -g
+	
+lect_voy :
+	gcc lecture_voyage.c -o lect_voy -g
 	
 all :
 	gcc process_padministration.c -o padmin -g
