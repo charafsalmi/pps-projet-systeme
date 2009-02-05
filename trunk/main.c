@@ -16,7 +16,6 @@
  *
  */
 
-
 /**
  * Point d'entrée de l'application
  * @param nbarg
@@ -25,128 +24,52 @@
  */
 int main(int nbarg, char *tbarg[])
 {
-    /*
-     * Si il n'y a pas tous les arguments ou si le nombre de guichets est
-     * supérieur à NB_max_guichets, on quitte.
-     */
-    if(nbarg != 3 || (atoi(tbarg[2]) > NB_max_guichets || atoi(tbarg[1]) < 1) )
-    {
-    	printf("agence: usage: agence f<fichier1> f<fichier2> <nbguichet> \n");
-    	printf("Options:\n");
-    	printf("\tf<fichier1>\t\tChemin vers le fichier …\n");
-    	printf("\tf<fichier2>\t\tChemin vers le fichier …\n");
-    	printf("\t<nbguichet>\t\tNombre de guichets entre 1 et %d\n", NB_max_guichets);
-        exit(1);
-    }
+	/*
+	 * Si il n'y a pas tous les arguments ou si le nombre de guichets est
+	 * supérieur à NB_max_guichets, on quitte.
+	 */
+	if(nbarg != 3 || (atoi(tbarg[2]) > NB_max_guichets || atoi(tbarg[1]) < 1))
+	{
+		printf("agence: usage: agence f<fichier1> f<fichier2> <nbguichet> \n");
+		printf("Options:\n");
+		printf("\tf<fichier1>\t\tChemin vers le fichier …\n");
+		printf("\tf<fichier2>\t\tChemin vers le fichier …\n");
+		printf("\t<nbguichet>\t\tNombre de guichets entre 1 et %d\n",
+				NB_max_guichets);
+		exit(1);
+	}
 
+	/*
+	 * Ouverture des tubes
+	 */
+	pipe(Taccu_guichet);
+	pipe(Tadmin_accueil);
 
-    /*
-     * Ouverture des tubes
-     */
-    pipe(Taccu_guichet);
-    pipe(Tadmin_accueil);
+	/*
+	 * Variables algorithmiques
+	 */
+	char code_consultation = '\0';
+	code_consultation = '\0';
 
-    /*
-     * Compteurs et buffers
-     */
-    int i = 0;
-    char* cbuffer;
-
-    /*
-     * Variables algorithmiques
-     */
-    char code_consultation ='\0';
-    code_consultation ='\0';
-
-
-    /*
-     * Action pour le processus Pdirection
-     */
-    if((pidDirection = fork()) < 0)
-    {
-        perror("Erreur dans la création du processus Pdirection.");
-        exit(1);
-    }
-    else if(pidDirection == 0)
-    {
-        /*
-         * Bienvenue dans le processus fils Pdirection.
-         */
-		//Ne pas oublier de fermer les tubes inutiles
-		    /*
-			* Action pour le processus Paccueil
-			*/
-			if((pidAccueil = fork()) < 0)
-			{
-				perror("Erreur dans la création du processus Paccueil.");
-				exit(1);
-			}
-			else if(pidAccueil == 0)
-			{
-				/*
-				 * Bienvenue dans le processus fils Paccueil.
-				 */
-				     /*
-					  * Action pour les processus Pguichet
-					  */
-				     for(i = 0; i < (*tbarg[2]); ++i)
-					{
-						if((pidGuichet[i] = fork()) < 0)
-						{
-							sprintf(cbuffer, "Erreur dans la création du processus Pguichet[%d].", i);
-							perror(cbuffer);
-							exit(errno);
-						}
-						else if(pidGuichet[i] == 0)
-						{
-							/*
-							 * Bienvenue dans le processus fils id_Pguichet[i]
-							 */
-							//Ne pas oublier de fermer les tubes inutiles
-							close(Taccu_guichet[1]);
-							close(Tadmin_accueil[0]);
-							close(Tadmin_accueil[1]);
-							//execl("process_guichet");
-							exit (1);
-						}
-					}
-				close(Taccu_guichet[0]);
-				close(Tadmin_accueil[1]);
-				//execl();
-				exit (1) ;
-			}
-
+	/*
+	 * Action pour le processus Pdirection
+	 */
+	if((pidDirection = fork()) < 0)
+	{
+		perror("Erreur dans la création du processus Pdirection.");
+		exit(1);
+	}
+	else
+		if(pidDirection == 0)
+		{
 			/*
-			 * Action pour le processus Padministration
+			 * Bienvenue dans le processus fils Pdirection.
 			 */
-			if((pidAdministration = fork()) < 0)
-			{
-				perror("Erreur dans la création du processus Padministration.");
-				exit(errno);
-			}
-			else if(pidAdministration == 0)
-			{
-				/*
-				 * Bienvenue dans le processus fils Padministration.
-				 */
-				// S'occupe du catalogue des voyages
-				// Lit l'enregistrement de fichier de ce type
-				close(Taccu_guichet[0]);
-				close(Taccu_guichet[1]);
-				close(Tadmin_accueil[0]);
-				//execl();
-			}
+			//execl("pdirection");
+		}
 
-		close(Taccu_guichet[0]);
-		close(Taccu_guichet[1]);
-		close(Tadmin_accueil[0]);
-		close(Tadmin_accueil[1]);
-		//execl();
-
-    }
-
-    /*
-     * Fin du programme
-     */
-    return 0;
+	/*
+	 * Fin du programme
+	 */
+	return 0;
 }
