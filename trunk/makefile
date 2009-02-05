@@ -10,6 +10,9 @@ direction :
 guichet :
 	gcc process_pguichet.c -o pguichet -g
 	
+create :
+	gcc creationfichier.c -o create -g
+	
 all :
 	gcc process_padministration.c -o padmin -g
 	gcc process_paccueil.c -o paccueil -g

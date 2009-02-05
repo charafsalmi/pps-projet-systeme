@@ -46,24 +46,34 @@ void creation_voyage(struct Transaction_Admin t/*s, int tube, int pid*/){
      
     //envoyer dans le tube 
     /*
-    write(tube, &p, sizeof(p));
+    write(tube, &t, sizeof(t));
     kill(pid, SIGUSR1);
     */
 
 }
 
-void suppression_voyage(struct produit p){
+void sup_voyage(struct Produit tmp){
 	int f;
 	f = open("fVoyages", O_RDWR);
-	while(read(f,&p, sizeof(p))){
-	  	printf("%s | %d | %d \n",p.identp ,p.nb_places_libres, p.nb_max_places);
-
-	};
+	lseek(f, 0, SEEK_SET);
+	int erreur=0;
 	
-	
+	while(erreur!=-1 && (strcmp(tmp.identp, voy)!=0){
+		erreur=read(f, &erreur, sizeof(Produit));
+	}
+	while((read(f, &tmp, sizeof(Produit))) > 0){
+		lseek(f, (-sizeof(Produit))*2, SEEK_CUR);
+		write(f, &tmp, sizeof(Produit));
+		lseek(fReserv,(sizeof(Produit))*2, SEEK_CUR);
+	}
+	char* s=EOF;
+	write (f, &s, sizeof(s));
 	
 	close(f);
 }
+
+
+
 
 int main(int nbarg , char* tbarg[]){
 	int fTransac_ad;
@@ -79,20 +89,20 @@ int main(int nbarg , char* tbarg[]){
 		
 		verif_lecture = read(fTransac_ad,&Tab_trans, sizeof(Tab_trans));
 		
-		if ( verif_lecture > 0 )
+		if ( verif_lecture > 0)
 		{
 			switch(Tab_trans.code)
 			{
 				//Creation
 				case 'C':
 				{
-					printf("creation \n");
+					printf("creation : \n");
 					creation_voyage(Tab_trans);
 					break;
 				}
 				case 'F':
 				{
-					printf("cloture \n");
+					printf("cloture : \n");
 					break;
 				}
 			}
