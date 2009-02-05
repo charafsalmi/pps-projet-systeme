@@ -8,6 +8,7 @@
 #include <errno.h>
 #include <signal.h>
 #include <sys/stat.h>
+#include <sys/wait.h>
 #include <sys/types.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -26,13 +27,6 @@ enum
 	Consultation = 'C', Demande = 'D', Annulation = 'A', Confirmation = 'F'
 };
 
-struct sigaction {
-    void     (* sa_handler)   (int);
-    void     (* sa_sigaction) (int, siginfo_t *, void *);
-    sigset_t    sa_mask;
-    int         sa_flags;
-    void     (* sa_restorer)  (void);
-}
 
 
 /*
