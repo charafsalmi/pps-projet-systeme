@@ -9,11 +9,10 @@
 int main(){
 	struct Transaction_Admin t;
 	int f;
-	f = open("scenar", O_WRONLY);
+	f = open("scenar", O_WRONLY | O_CREAT);
 	printf ("voyage\n");
 	scanf("%s", t.identp);
-	printf ("code\n");
-	scanf("%c", &t.code);
+	t.code='C';
 	printf("nombre max de places\n");
 	scanf("%i", &t.nb_max_places);
 	
