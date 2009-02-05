@@ -40,6 +40,20 @@ int main(int nbarg, char *tbarg[])
 	}
 
 	/*
+	 * Ouverture du fichier journal
+	 */
+
+	// Ouverture du fichier journal
+	if((fJournal = open("journal.txt", O_CREAT | O_WRONLY | O_TRUNC, 0644)) < 0)
+	{
+		perror("Impossible d'ouvrir le fichier journal.");
+		exit(1);
+	}
+	sprintf(flog,"%d",fJournal);
+	journal("DEBUT pDirection", fJournal);
+
+
+	/*
 	 * Ouverture des tubes
 	 */
 	pipe(Taccu_guichet);
