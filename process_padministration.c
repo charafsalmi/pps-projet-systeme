@@ -19,26 +19,47 @@
 void creation_voyage(struct Transaction_Admin t/*s, int tube, int pid*/){
 
 	struct produit p;
+	struct reservation r;
+	char nomfichier [Tmax_nom_produit + 20];
 	int f;
 	
-	//p.identp = t.identp;
 	strcpy(p.identp, t.identp);
 	p.nb_max_places = t.nb_max_places;
 	p.nb_places_libres = t.nb_max_places;
 	
-	f = open("fVoyage", O_WRONLY | O_CREAT,S_IRWXU);
+	flock(f,LOCK_EX);
+	f = open("fVoyages", O_WRONLY | O_CREAT,S_IRWXU);
 	lseek(f, 0, SEEK_END);
 	
 	write (f, &p, sizeof(p));
-
     close(f);
+    flock(f,LOCK_UN);
     
+    
+    // création du fichier pour le voyage en question
+    sprintf(nomfichier, "Reservations/%s.reserv", p.identp);
+    f = open(nomfichier, O_CREAT,S_IRWXU);
+    close(f);
+     
     //envoyer dans le tube 
     /*
     write(tube, &p, sizeof(p));
     kill(pid, SIGUSR1);
     */
 
+}
+
+void suppression_voyage(struct produit p){
+	int f;
+	f = open("fVoyages", O_RDWR);
+	while(read(f,&p, sizeof(p))){
+	  	printf("%s | %d | %d \n",p.identp ,p.nb_places_libres, p.nb_max_places);
+
+	};
+	
+	
+	
+	close(f);
 }
 
 int main(int nbarg , char* tbarg[]){

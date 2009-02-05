@@ -1,6 +1,8 @@
 #include "type_definitions.h"
 
-
+/*
+* pour créer le fichier de transaction pour l'administration
+*/
 int main(){
 	struct Transaction_Admin t;
 	int f;
@@ -8,7 +10,7 @@ int main(){
 	lseek(f, 0, SEEK_END);
 	printf ("voyage\n");
 	scanf("%s", t.identp);
-	t.code='C';
+	t.code='F';
 	printf("nombre max de places\n");
 	scanf("%i", &t.nb_max_places);
 	
