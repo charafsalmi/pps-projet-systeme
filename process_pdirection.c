@@ -6,3 +6,22 @@
  */
 
 #include "type_definitions.h"
+
+/**
+ * Point d'entrée de l'application
+ * @param nbarg
+ * @param tbarg
+ * @return
+ */
+int main(int nbarg, char *tbarg[])
+{
+	/*
+	 * Lance pAccueil en premier pour lui donner le pid de pAdministration
+	 */
+
+	/*
+	 * Lance pAdministration
+	 */
+
+	return 0;
+}

@@ -5,9 +5,6 @@
  *      Author: Charaf SALMI
  */
 
-#include <stdio.h>
-#include <stdlib.h>
-
 #include "type_definitions.h"
 
 int main()

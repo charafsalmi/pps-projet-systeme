@@ -1,21 +1,9 @@
-
-
-
-
 /*
  * main.c
  *
  *  Created on: 16 janv. 2009
  *      Author: Charaf SALMI, François HAURIT, Sophie SURMONT
  */
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <errno.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <signal.h>
 
 #include "type_definitions.h"
 
@@ -30,7 +18,7 @@
 
 
 /**
- * point d'entrée de l'application
+ * Point d'entrée de l'application
  * @param nbarg
  * @param tbarg
  * @return
@@ -51,22 +39,10 @@ int main(int nbarg, char *tbarg[])
         exit(1);
     }
 
-    /*
-     * Identifiants des processus fils.
-     */
-    pid_t
-        pidAccueil,
-        pidAdministration,
-        pidDirection,
-        pidGuichet[(*tbarg[2])];
 
     /*
-     * Création des tubes
+     * Ouverture des tubes
      */
-    int
-        Tadmin_accueil[1],
-        Taccu_guichet[1];
-
     pipe(Taccu_guichet);
     pipe(Tadmin_accueil);
 

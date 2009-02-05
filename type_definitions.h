@@ -4,10 +4,23 @@
  *  Created on: 2 févr. 2009
  *      Author: charaf
  */
+#include <fcntl.h>
+#include <errno.h>
+#include <signal.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
 
+#define NB_max_guichets			5
 #define NB_max_voyages			5
 #define Tmax_nom_produit        8
+<<<<<<< .mine
+=======
 #define NB_max_guichets			5
+>>>>>>> .r10
 #define Tmax_nom_utilisateur	20
 
 enum
@@ -99,3 +112,20 @@ struct Transaction_Admin
 	int nb_max_places;
 };
 typedef struct transaction_admin Transaction_Admin;
+
+/*
+ * Identifiants des processus fils.
+ */
+pid_t
+    pidAccueil,
+    pidAdministration,
+    pidDirection,
+    pidGuichet[NB_max_guichets];
+
+/*
+ * Création des tubes
+ */
+int
+    Tadmin_accueil[1],
+    Taccu_guichet[1];
+
