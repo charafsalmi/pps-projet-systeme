@@ -47,6 +47,8 @@ int main(int nbarg , char* tbarg[]){
 			}
 			//printf("%s | %c | %d \n",Tab_trans.identp ,Tab_trans.code, Tab_trans.nb_max_places);
 			printf("%8s \n",Tab_trans.identp);
+			printf("%c \n",Tab_trans.code);
+			printf("%i \n",Tab_trans.nb_max_places);
 		}
 		else
 		{
