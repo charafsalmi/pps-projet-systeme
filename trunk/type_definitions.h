@@ -17,10 +17,7 @@
 #define NB_max_guichets			5
 #define NB_max_voyages			5
 #define Tmax_nom_produit        8
-<<<<<<< .mine
-=======
 #define NB_max_guichets			5
->>>>>>> .r10
 #define Tmax_nom_utilisateur	20
 
 enum
