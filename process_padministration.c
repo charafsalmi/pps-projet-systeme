@@ -16,6 +16,30 @@
 
 
 
+void creation_voyage(struct Transaction_Admin t/*s, int tube, int pid*/){
+
+	struct produit p;
+	int f;
+	
+	//p.identp = t.identp;
+	strcpy(p.identp, t.identp);
+	p.nb_max_places = t.nb_max_places;
+	p.nb_places_libres = t.nb_max_places;
+	
+	f = open("fVoyage", O_WRONLY | O_CREAT,S_IRWXU);
+	lseek(f, 0, SEEK_END);
+	
+	write (f, &p, sizeof(p));
+
+    close(f);
+    
+    //envoyer dans le tube 
+    /*
+    write(tube, &p, sizeof(p));
+    kill(pid, SIGUSR1);
+    */
+
+}
 
 int main(int nbarg , char* tbarg[]){
 	int fTransac_ad;
@@ -39,6 +63,7 @@ int main(int nbarg , char* tbarg[]){
 				case 'C':
 				{
 					printf("creation \n");
+					creation_voyage(Tab_trans);
 					break;
 				}
 				case 'F':
@@ -55,8 +80,6 @@ int main(int nbarg , char* tbarg[]){
 			printf("erreur de lecture \n");
 			finAdmin=1;
 		}
-		//verif_lecture = lseek(fTransac_ad, sizeof(Tab_trans), SEEK_CUR);
-		//if (verif_lecture == -1) { printf("le lseek ne marche pas\n"); finAdmin=1;}
 
 	}
 	while(finAdmin == 0);
@@ -65,3 +88,5 @@ int main(int nbarg , char* tbarg[]){
 	close(fTransac_ad);
 	return 0;
 }
+
+
