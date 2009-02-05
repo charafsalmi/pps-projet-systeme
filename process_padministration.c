@@ -36,8 +36,11 @@ void creation_voyage(struct Transaction_Admin t/*s, int tube, int pid*/){
     flock(f,LOCK_UN);
     
     
-    // création du fichier pour le voyage en question
+    // création des fichiers pour le voyage en question
     sprintf(nomfichier, "Reservations/%s.reserv", p.identp);
+    f = open(nomfichier, O_CREAT,S_IRWXU);
+    close(f);
+    sprintf(nomfichier, "Reservations/%s.fa", p.identp);
     f = open(nomfichier, O_CREAT,S_IRWXU);
     close(f);
      
