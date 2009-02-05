@@ -1,5 +1,0 @@
-yahou   C 65
-yihou   C 42
-yaplouw F 7
-yaplou  F 8
-yiha    C 7
