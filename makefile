@@ -16,7 +16,11 @@ create :
 lect_voy :
 	gcc lecture_voyage.c -o lect_voy -g
 	
+agence :
+	gcc main.c -o agence -g
+	
 all :
+	gcc main.c -o agence -g
 	gcc process_padministration.c -o padmin -g
 	gcc process_paccueil.c -o paccueil -g
 	gcc process_pdirection.c -o pdirection -g
