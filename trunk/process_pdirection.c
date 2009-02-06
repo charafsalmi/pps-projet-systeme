@@ -48,9 +48,13 @@ int main(int nbarg, char *tbarg[])
 			/*
 			 * Bienvenue dans le processus fils Padministration.
 			 */
+			close(Tadmin_accueil[0]);
 			close(Taccu_guichet[0]);
 			close(Taccu_guichet[1]);
-			execl("padmin","padmin", tbarg[0], Tadmin_accueil[1], pidAccueil, NULL);
+			if (execl("padmin","padmin", tbarg[0], Tadmin_accueil[1], pidAccueil, NULL)==-1) 
+			{ 
+				printf("Erreur de lancement de l'execl padmin\n");
+			}
 		}
 	int e;
 	wait(&e);
