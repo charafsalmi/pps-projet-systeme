@@ -11,7 +11,7 @@
 int id_tube;
 
 
-void creation_voyage(struct Transaction_Admin t/*s, int tube, int pid*/){
+void creation_voyage(struct Transaction_Admin t/*, int pid*/){
 
 	struct produit p;
 	struct reservation r;
@@ -42,13 +42,13 @@ void creation_voyage(struct Transaction_Admin t/*s, int tube, int pid*/){
      
     //envoyer dans le tube 
     /*
-    write(tube, &t, sizeof(t));
+    write(id_tube, &t, sizeof(t));
     kill(pid, SIGUSR1);
     */
 
 }
 
-void sup_voyage(char* voy){
+void sup_voyage(char* voy/*, int pid*/){
 	int f;
 	flock(f,LOCK_EX);
 	f = open("fVoyages", O_RDWR);
@@ -56,21 +56,32 @@ void sup_voyage(char* voy){
 	int erreur=0;
 	Produit tmp;
 	
+
 	while(erreur!=-1 && (strcmp(tmp.identp, voy))!=0)
 	{
 		erreur=read(f, &tmp, sizeof(Produit));
+		if (strcmp(tmp.identp, " ")==0)
+		{ erreur=-1; }
 	}
 	while((read(f, &tmp, sizeof(Produit))) > 0)
 	{
 		lseek(f, (-sizeof(Produit))*2, SEEK_CUR);
 		write(f, &tmp, sizeof(Produit));
-		lseek(f,(sizeof(Produit))*2, SEEK_CUR);
+		lseek(f,(sizeof(Produit)), SEEK_CUR);
 	}
-	char* s=EOF;
-	write (f, &s, sizeof(s));
+	lseek(f,-sizeof(Produit), SEEK_END);
+	strcpy(tmp.identp," ");
+	write (f, &tmp, sizeof(Produit));
+	
+	
 	
 	close(f);
 	flock(f,LOCK_UN); 
+	
+	/*
+    write(id_tube, &t, sizeof(t));
+    kill(pid, SIGUSR1);
+    */
 }
 
 /*
@@ -118,6 +129,7 @@ int main(int nbarg , char* tbarg[]){
 				case 'F':
 				{
 					printf("cloture : \n");
+					sup_voyage(Tab_trans.identp);
 					break;
 				}
 			}
