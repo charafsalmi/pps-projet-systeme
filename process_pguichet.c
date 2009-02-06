@@ -77,6 +77,7 @@ int main(int nbarg, char *tbarg[])
          * Début du programme
          */
 	
+	printf("guichet\n");
 	struct transaction trcli;
 	//Déclarations fichiers
 	int fVoyages;
