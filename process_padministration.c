@@ -113,8 +113,7 @@ int main(int nbarg , char* tbarg[]){
 	int verif_lecture;
 	finAdmin = 0;
 	struct sigaction sigCreve;
-
-	printf("Dans padmin\n");	
+	printf("dans admin\n");	
 	
 	sigCreve.sa_handler=argh;
 	sigCreve.sa_flags=0;
