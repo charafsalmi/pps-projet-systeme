@@ -7,25 +7,27 @@
 
 
 int main(){
-	struct Transaction_Admin t;
+	struct transaction t;
 	int f,i;
-	f = open("scenar", O_WRONLY | O_CREAT,S_IRWXU);
+	f = open("ppp", O_WRONLY | O_CREAT,S_IRWXU);
 	lseek(f, 0, SEEK_END);
-	printf("voyage\n");
+	printf("voyage u\n");
+	scanf("%s", t.identu);
+	printf("voyage p\n");
 	scanf("%s", t.identp);
-	printf("mettre 1 pour C, mettre 0 pour supprimer\n");
+	printf("mettre 1 pour R, mettre 0 pour libéré\n");
 	scanf("%d", &i);
 	if ( i == 0 )
 	{ 
-		t.code = 'F';
+		t.code = 'L';
 	}
 	else
 	{
-		t.code = 'C';
+		t.code = 'R';
 	}
 	
 	printf("nombre max de places\n");
-	scanf("%i", &t.nb_max_places);
+	scanf("%d", &t.nb_places);
 	
 	
 	write (f, &t, sizeof(t));
