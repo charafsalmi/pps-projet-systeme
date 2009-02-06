@@ -7,20 +7,7 @@
 
 #include "type_definitions.h"
 
-char* journalisation(char* str)
-{
-	int f;
-	printf("ok");
-	char str1[] = str;
-	//strcat(str1, "\n");
-	return " ";
-		/*f = open("./journal.txt", O_APPEND | O_CREAT);
-	lseek(f, 0, SEEK_END);
-
-	write(f, &str1, sizeof(char*));
-
-	return strcat(str, " \n");*/
-}
+#include "journal.h"
 
 /**
  * Point d'entrée de l'application
@@ -31,7 +18,7 @@ char* journalisation(char* str)
 int main(int nbarg, char *tbarg[])
 {
 
-	journalisation("Salut !!");
+	journalisation("Main", "Démarrage du programme");
 	/*
 	 * Si il n'y a pas tous les arguments ou si le nombre de guichets est
 	 * supérieur à NB_max_guichets, on quitte.

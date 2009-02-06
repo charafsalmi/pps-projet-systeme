@@ -14,7 +14,6 @@
 #include <string.h>
 #include <unistd.h>
 
-
 #define NB_max_guichets			5
 #define NB_max_voyages			5
 #define Tmax_nom_produit        8

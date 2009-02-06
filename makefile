@@ -16,8 +16,14 @@ create :
 lect_voy :
 	gcc lecture_voyage.c -o lect_voy -g
 	
-agence :
-	gcc main.c -o agence -g
+agence : agence.o journal.o
+	gcc -o agence agence.o journal.o
+	
+agence.o : main.c type_definitions.h
+	gcc -o agence.o -c main.c
+
+journal.o : journal.c journal.h
+	gcc -o journal.o -c journal.c
 	
 all :
 	gcc main.c -o agence -g
