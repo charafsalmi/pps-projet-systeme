@@ -37,7 +37,7 @@ int main(int nbarg, char *tbarg[])
 	/*
 	 * Création des guichets
 	 */
-	int nb_guichets = 2; //argument de l'application
+	int nb_guichets = *tbarg[4]; //argument de l'application
 
 	for(i = 0; i < nb_guichets; ++i)
 	{
@@ -101,7 +101,7 @@ int main(int nbarg, char *tbarg[])
 			{
 				//Si il existe
 					//Ecrire la transaction dans le tube tAccu-guichet
-				write(tbarg[2], &t, sizeof(Transaction));
+				write(*tbarg[2], &t, sizeof(Transaction));
 			}
 			else
 			{
@@ -109,7 +109,7 @@ int main(int nbarg, char *tbarg[])
 					//C'est la première réservation
 					//L'ajouter dans le fichier créé Reservation/[t.identp].fa
 				int f;
-				
+
 				f = open(strcat(strcat("Reservation/", t.identp), ".fa"), O_WRONLY | O_CREAT,S_IRWXU);
 				lseek(f, 0, SEEK_END);
 				write (f, &t, sizeof(Transaction));

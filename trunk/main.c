@@ -7,14 +7,20 @@
 
 #include "type_definitions.h"
 
-/*
- * Précisions :
- *  - Si un voyage est annulé, on prend qqun en attente.
- * Par contre, si le voyage est supprimé, on se fiche
- * de tous les gens en attente.
- *  - Les signaux interdits d'utilisation 9 10 12 18 19
- *
- */
+char* journalisation(char* str)
+{
+	int f;
+	printf("ok");
+	char str1[] = str;
+	//strcat(str1, "\n");
+	return " ";
+		/*f = open("./journal.txt", O_APPEND | O_CREAT);
+	lseek(f, 0, SEEK_END);
+
+	write(f, &str1, sizeof(char*));
+
+	return strcat(str, " \n");*/
+}
 
 /**
  * Point d'entrée de l'application
@@ -24,6 +30,8 @@
  */
 int main(int nbarg, char *tbarg[])
 {
+
+	journalisation("Salut !!");
 	/*
 	 * Si il n'y a pas tous les arguments ou si le nombre de guichets est
 	 * supérieur à NB_max_guichets, on quitte.
