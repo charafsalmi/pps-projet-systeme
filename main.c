@@ -17,8 +17,6 @@
  */
 int main(int nbarg, char *tbarg[])
 {
-
-	journalisation("Main", "Démarrage du programme");
 	/*
 	 * Si il n'y a pas tous les arguments ou si le nombre de guichets est
 	 * supérieur à NB_max_guichets, on quitte.
@@ -60,6 +58,7 @@ int main(int nbarg, char *tbarg[])
 			/*
 			 * Bienvenue dans le processus fils Pdirection.
 			 */
+			journalisation("MAIN", "Lancement de pDirection");
 			execl("pdirection", "pdirection", tbarg[1], tbarg[2], tbarg[3], NULL);
 		}
 
