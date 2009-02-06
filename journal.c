@@ -17,17 +17,28 @@
 
 #include "journal.h"
 
-void journalisation(const char* nom, const char* message) {
+void journalisation(const char* name, const char* msg)
+{
+
 	int fd;
-	time_t temps;
-	char tmp[512], jour[30];
-	temps = time(NULL);
-	strcpy(jour, ctime(&temps));
-	jour[strlen(jour)-1] = '\0';
-	sprintf(tmp, "(%s)  [%s] >> %s\n", jour, nom, message);
+
+	time_t tm;
+
+	char tmp[512], day[30];
+	tm = time(NULL);
+	strcpy(day, ctime(&tm));
+
+	day[strlen(day)-1] = '\0';
+
+	sprintf(tmp, "(%s)  [%s] >> %s\n", day, name, msg);
 	fd = open("journal.log", O_WRONLY | O_APPEND | O_CREAT, 0770);
+
+	/* Doute sur ces flock */
 	flock(fd, LOCK_EX);
+
 	write(fd, tmp, (strlen(tmp))*sizeof(char));
+
 	flock(fd, LOCK_UN);
+
 	close(fd);
 }
