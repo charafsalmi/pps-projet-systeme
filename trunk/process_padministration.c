@@ -9,11 +9,13 @@
 #include "type_definitions.h"
 
 int id_tube;
+int finAdmin;
 
 
 void creation_voyage(struct Transaction_Admin t/*, int pid*/){
 
 	struct produit p;
+	struct produit tmp;
 	struct reservation r;
 	char nomfichier [Tmax_nom_produit + 20];
 	int f;
@@ -24,8 +26,17 @@ void creation_voyage(struct Transaction_Admin t/*, int pid*/){
 	p.nb_places_libres = t.nb_max_places;
 	
 	flock(f,LOCK_EX);
-	f = open("fVoyages", O_WRONLY | O_CREAT,S_IRWXU);
-	lseek(f, 0, SEEK_END);
+	f = open("fVoyages", O_RDWR | O_CREAT,S_IRWXU);
+	lseek(f, -sizeof(p), SEEK_END);
+	read(f, &tmp, sizeof(p));
+	if (strcmp(tmp.identp, " ")==0)
+	{
+		lseek(f, -sizeof(p), SEEK_END);
+	}
+	else
+	{
+		lseek(f, 0, SEEK_END);	
+	}
 	
 	write (f, &p, sizeof(p));
     close(f);
@@ -70,7 +81,7 @@ void sup_voyage(char* voy/*, int pid*/){
 		lseek(f,(sizeof(Produit)), SEEK_CUR);
 	}
 	lseek(f,-sizeof(Produit), SEEK_END);
-	strcpy(tmp.identp," ");
+	strcpy(tmp.identp, " ");
 	write (f, &tmp, sizeof(Produit));
 	
 	
@@ -90,7 +101,7 @@ void sup_voyage(char* voy/*, int pid*/){
 
 void argh(){
 	printf("arggggg\n");
-	close(id_tube);
+	finAdmin=1;
 }
 
 
@@ -98,7 +109,7 @@ int main(int nbarg , char* tbarg[]){
 	int fTransac_ad;
     int fVoy;
 	int verif_lecture;
-	int finAdmin = 0;
+	finAdmin = 0;
 	struct sigaction sigCreve;
 
 	sigCreve.sa_handler=argh;
@@ -147,7 +158,7 @@ int main(int nbarg , char* tbarg[]){
 
 
 	close(fTransac_ad);
-	argh();
+	close(id_tube);
 	return 0;
 }
 
