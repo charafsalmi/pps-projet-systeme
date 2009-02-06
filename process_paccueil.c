@@ -11,12 +11,12 @@ int chercher_dans_fVoyage(char* Voyage)
 {
 	struct produit p;
 	int f, g;
-
 	if((f = open("fVoyages", O_RDONLY)) < 0)
 	{
 		perror("Impossible d'ouvrir fVoyages. \n");
 		exit(1);
 	}
+	flock(f, LOCK_SH);
 
 	while(read(f, &p, sizeof(Produit)))
 	{
@@ -25,6 +25,7 @@ int chercher_dans_fVoyage(char* Voyage)
 	}
 
 	close(f);
+	flock(f, LOCK_UN);
 	return 0;
 }
 
@@ -108,6 +109,7 @@ int main(int nbarg, char *tbarg[])
 					//C'est la première réservation
 					//L'ajouter dans le fichier créé Reservation/[t.identp].fa
 				int f;
+				
 				f = open(strcat(strcat("Reservation/", t.identp), ".fa"), O_WRONLY | O_CREAT,S_IRWXU);
 				lseek(f, 0, SEEK_END);
 				write (f, &t, sizeof(transaction));
