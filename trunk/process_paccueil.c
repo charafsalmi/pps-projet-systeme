@@ -79,7 +79,7 @@ int main(int nbarg, char *tbarg[])
 	lseek(fTransac, 0, SEEK_SET);
 
 	//lire les transactions
-	while(read(fTransac,&t, sizeof(transaction)))
+	while(read(fTransac,&t, sizeof(Transaction)))
 	{
 		/*
 		 * Traitement du signal
@@ -101,7 +101,7 @@ int main(int nbarg, char *tbarg[])
 			{
 				//Si il existe
 					//Ecrire la transaction dans le tube tAccu-guichet
-				write(tbarg[2], &t, sizeof(transaction));
+				write(tbarg[2], &t, sizeof(Transaction));
 			}
 			else
 			{
@@ -112,7 +112,7 @@ int main(int nbarg, char *tbarg[])
 				
 				f = open(strcat(strcat("Reservation/", t.identp), ".fa"), O_WRONLY | O_CREAT,S_IRWXU);
 				lseek(f, 0, SEEK_END);
-				write (f, &t, sizeof(transaction));
+				write (f, &t, sizeof(Transaction));
 				close(f);
 					//Incrémenter le fichier créé ACreer/[t.identp].desc
 				int desc;
