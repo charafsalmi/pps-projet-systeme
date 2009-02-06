@@ -25,7 +25,7 @@ char* journalisation(char* str)
 /**
  * Point d'entrée de l'application
  * @param nbarg
- * @param tbarg : tbarg[0]: ftransaction_admin, tbarg[1] : ftransaction_client, tbarg[2] : nbguichet
+ * @param tbarg : tbarg[1]: ftransaction_admin, tbarg[2] : ftransaction_client, tbarg[3] : nbguichet
  * @return
  */
 int main(int nbarg, char *tbarg[])
@@ -73,7 +73,7 @@ int main(int nbarg, char *tbarg[])
 			/*
 			 * Bienvenue dans le processus fils Pdirection.
 			 */
-			execl("pdirection", "pdirection", tbarg[0], tbarg[1], tbarg[2], NULL);
+			execl("pdirection", "pdirection", tbarg[1], tbarg[2], tbarg[3], NULL);
 		}
 
 	/*

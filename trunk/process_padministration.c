@@ -12,7 +12,7 @@ int id_tube;
 int finAdmin;
 
 
-void creation_voyage(struct Transaction_Admin t/*, int pid*/){
+void creation_voyage(struct Transaction_Admin t, int pid){
 
 	struct produit p;
 	struct produit tmp;
@@ -53,14 +53,14 @@ void creation_voyage(struct Transaction_Admin t/*, int pid*/){
     close(f);
      
     //envoyer dans le tube 
-    /*
+    
     write(id_tube, &t, sizeof(t));
     kill(pid, SIGUSR1);
-    */
+    
 
 }
 
-void sup_voyage(char* voy/*, int pid*/){
+void sup_voyage(struct Transaction_Admin t, int pid){
 	int f;
 	
 	f = open("fVoyages", O_RDWR);
@@ -70,7 +70,7 @@ void sup_voyage(char* voy/*, int pid*/){
 	Produit tmp;
 	
 
-	while(erreur!=-1 && (strcmp(tmp.identp, voy))!=0)
+	while(erreur!=-1 && (strcmp(tmp.identp, t.identp))!=0)
 	{
 		erreur=read(f, &tmp, sizeof(Produit));
 		if (strcmp(tmp.identp, " ")==0)
@@ -91,10 +91,10 @@ void sup_voyage(char* voy/*, int pid*/){
 	close(f);
 	flock(f,LOCK_UN); 
 	
-	/*
+	
     write(id_tube, &t, sizeof(t));
     kill(pid, SIGUSR1);
-    */
+    
 }
 
 /*
@@ -136,12 +136,12 @@ int main(int nbarg , char* tbarg[]){
 				//Creation
 				case 'C':
 				{
-					creation_voyage(Tab_trans/*, tbarg[2]*/);
+					creation_voyage(Tab_trans, atoi(tbarg[2]));
 					break;
 				}
 				case 'F':
 				{
-					sup_voyage(Tab_trans.identp/*, tbarg[2]*/);
+					sup_voyage(Tab_trans, atoi(tbarg[2]));
 					break;
 				}
 			}
