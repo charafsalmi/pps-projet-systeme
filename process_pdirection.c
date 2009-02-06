@@ -20,6 +20,9 @@ int main(int nbarg, char *tbarg[])
 	 */
 	pipe(Tadmin_accueil);
 	pipe(Taccu_guichet);
+	char* param1;
+	char* param2;
+	char* param3;
 	if((pidAccueil = fork()) < 0)
 	{
 		perror("Erreur dans la création du processus Paccueil.");
@@ -30,8 +33,15 @@ int main(int nbarg, char *tbarg[])
 			/*
 			 * Bienvenue dans le processus fils Paccueil.
 			 */
+			printf("dans le fork accueil\n");
+			sprintf(param1, "%d", Tadmin_accueil[0]);
+			sprintf(param2, "%d", Taccu_guichet[0]);
+			sprintf(param3, "%d", Taccu_guichet[1]);
 			close(Tadmin_accueil[1]);
-			execl("paccueil","paccueil",Tadmin_accueil[0],Taccu_guichet[0],Taccu_guichet[1], tbarg[1], tbarg[2], NULL);
+			if(execl("paccueil","paccueil",param1, param2, param3, tbarg[2], tbarg[3], NULL)==-1)
+			{
+				printf("Erreur de lancement de l'execl paccueil\n");
+			}
 			exit(0);
 		}
 
@@ -48,10 +58,13 @@ int main(int nbarg, char *tbarg[])
 			/*
 			 * Bienvenue dans le processus fils Padministration.
 			 */
+			printf("dans le fork admin\n");
 			close(Tadmin_accueil[0]);
 			close(Taccu_guichet[0]);
 			close(Taccu_guichet[1]);
-			if (execl("padmin","padmin", tbarg[0], Tadmin_accueil[1], pidAccueil, NULL)==-1) 
+			sprintf(param1, "%d",Tadmin_accueil[1]);
+			sprintf(param2, "%d", pidAccueil);
+			if (execl("padmin","padmin", tbarg[1], param1, param2, NULL)==-1) 
 			{ 
 				printf("Erreur de lancement de l'execl padmin\n");
 			}

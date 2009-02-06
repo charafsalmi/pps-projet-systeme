@@ -31,13 +31,16 @@ int chercher_dans_fVoyage(char* Voyage)
 
 int main(int nbarg, char *tbarg[])
 {
+	printf("dans le prog accueil\n");
 	int i = 0;
 	char* cbuffer;
+	char* param1;
+	char* param2;
 
 	/*
 	 * Création des guichets
 	 */
-	int nb_guichets = *tbarg[4]; //argument de l'application
+	int nb_guichets = atoi(tbarg[5]); //argument de l'application
 
 	for(i = 0; i < nb_guichets; ++i)
 	{
@@ -54,7 +57,8 @@ int main(int nbarg, char *tbarg[])
 				/*
 				 * Bienvenue dans le processus fils Pguichet[i]
 				 */
-				execl("pguichet", "pguichet", i, Taccu_guichet[0], NULL);
+				sprintf(param1,"%d",i);
+				execl("pguichet", "pguichet", param1, tbarg[2], NULL);
 				exit(1);
 			}
 	}
@@ -101,7 +105,7 @@ int main(int nbarg, char *tbarg[])
 			{
 				//Si il existe
 					//Ecrire la transaction dans le tube tAccu-guichet
-				write(*tbarg[2], &t, sizeof(Transaction));
+				write(tbarg[2], &t, sizeof(Transaction));
 			}
 			else
 			{
@@ -109,7 +113,7 @@ int main(int nbarg, char *tbarg[])
 					//C'est la première réservation
 					//L'ajouter dans le fichier créé Reservation/[t.identp].fa
 				int f;
-
+				
 				f = open(strcat(strcat("Reservation/", t.identp), ".fa"), O_WRONLY | O_CREAT,S_IRWXU);
 				lseek(f, 0, SEEK_END);
 				write (f, &t, sizeof(Transaction));
