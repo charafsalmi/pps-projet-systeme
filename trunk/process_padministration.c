@@ -40,8 +40,9 @@ void creation_voyage(struct Transaction_Admin t, int pid){
 	}
 	
 	write (f, &p, sizeof(p));
-    close(f);
     flock(f,LOCK_UN);
+    close(f);
+
     
     
     // création des fichiers pour le voyage en question
@@ -87,9 +88,8 @@ void sup_voyage(struct Transaction_Admin t, int pid){
 	write (f, &tmp, sizeof(Produit));
 	
 	
-	
-	close(f);
 	flock(f,LOCK_UN); 
+	close(f);
 	
 	
     write(id_tube, &t, sizeof(t));
@@ -113,7 +113,7 @@ int main(int nbarg , char* tbarg[]){
 	int verif_lecture;
 	finAdmin = 0;
 	struct sigaction sigCreve;
-	printf("dans admin\n");	
+	printf("dans prog admin\n");	
 	
 	sigCreve.sa_handler=argh;
 	sigCreve.sa_flags=0;
@@ -121,12 +121,10 @@ int main(int nbarg , char* tbarg[]){
 
 	sigaction(SIGUSR1,&sigCreve,NULL);
 
-	printf("%s \n",tbarg[1]);
 	struct Transaction_Admin Tab_trans;
 	fTransac_ad = open(tbarg[1],O_RDONLY);
 
 	do{
-		
 		verif_lecture = read(fTransac_ad,&Tab_trans, sizeof(Tab_trans));
 		
 		if ( verif_lecture > 0)
@@ -160,6 +158,7 @@ int main(int nbarg , char* tbarg[]){
 
 	close(fTransac_ad);
 	close(id_tube);
+	printf("fin admin\n");
 	return 0;
 }
 

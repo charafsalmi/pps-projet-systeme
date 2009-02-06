@@ -34,12 +34,13 @@ int main(int nbarg, char *tbarg[])
 	printf("dans le prog accueil\n");
 	int i = 0;
 	char* cbuffer;
-	char* param1;
-	char* param2;
+	char param1[256];
+	char param2[256];
 
 	/*
 	 * Création des guichets
 	 */
+	 printf("%s\n",tbarg[4]);
 	int nb_guichets = atoi(tbarg[5]); //argument de l'application
 
 	for(i = 0; i < nb_guichets; ++i)
