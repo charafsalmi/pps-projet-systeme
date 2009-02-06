@@ -20,7 +20,6 @@ int main(int nbarg, char *tbarg[])
 	 */
 	pipe(Tadmin_accueil);
 	pipe(Taccu_guichet);
-	printf("Dans pdirection\n");
 	if((pidAccueil = fork()) < 0)
 	{
 		perror("Erreur dans la création du processus Paccueil.");
@@ -33,6 +32,7 @@ int main(int nbarg, char *tbarg[])
 			 */
 			close(Tadmin_accueil[1]);
 			execl("paccueil","paccueil",Tadmin_accueil[0],Taccu_guichet[0],Taccu_guichet[1], tbarg[1], tbarg[2], NULL);
+			exit(0);
 		}
 
 	/*
@@ -50,7 +50,7 @@ int main(int nbarg, char *tbarg[])
 			 */
 			close(Taccu_guichet[0]);
 			close(Taccu_guichet[1]);
-			execl("padmin","padmin",tbarg[0], Tadmin_accueil[1],pidAccueil,NULL);
+			execl("padmin","padmin", tbarg[0], Tadmin_accueil[1], pidAccueil, NULL);
 		}
 	int e;
 	wait(&e);
