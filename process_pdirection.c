@@ -18,8 +18,6 @@ int main(int nbarg, char *tbarg[])
 	/*
 	 * Lance pAccueil en premier pour lui donner le pid de pAdministration
 	 */
-	int Tadmin_accu[2],
-	    Taccu_guichet[2];
 	pipe(Tadmin_accu);
 	pipe(Taccu_guichet);
 	if((pidAccueil = fork()) < 0)
