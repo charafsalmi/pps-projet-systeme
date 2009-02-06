@@ -18,7 +18,7 @@ int main(int nbarg, char *tbarg[])
 	/*
 	 * Lance pAccueil en premier pour lui donner le pid de pAdministration
 	 */
-	pipe(Tadmin_accu);
+	pipe(Tadmin_accueil);
 	pipe(Taccu_guichet);
 	if((pidAccueil = fork()) < 0)
 	{
@@ -30,8 +30,8 @@ int main(int nbarg, char *tbarg[])
 			/*
 			 * Bienvenue dans le processus fils Paccueil.
 			 */
-			close(Tadmin_accu[1]);
-			execl("pAccueil","pAccueil",Tadmin_accu[0],Taccu_guichet[0],Taccu_guichet[1],NULL);
+			close(Tadmin_accueil[1]);
+			execl("pAccueil","pAccueil",Tadmin_accueil[0],Taccu_guichet[0],Taccu_guichet[1], tbarg[1], tbarg[2], NULL);
 		}
 
 	/*
@@ -47,10 +47,10 @@ int main(int nbarg, char *tbarg[])
 			/*
 			 * Bienvenue dans le processus fils Padministration.
 			 */
-			close(Tadmin_accu[0]);
+			close(Tadmin_accueil[0]);
 			close(Taccu_guichet[0]);
 			close(Taccu_guichet[1]);
-			execl("pAdmin","pAdmin",Tadmin_accu[1],pidAccueil,NULL);
+			execl("pAdmin","pAdmin",tbarg[0], Tadmin_accueil[1],pidAccueil,NULL);
 		}
 	int e;
 	wait(&e);

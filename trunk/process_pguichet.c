@@ -17,24 +17,28 @@
 
 #include "type_definitions.h"
 int voy_places_act(int fVoyages,char* identp){
+	int i;
 	lseek(fVoyages,0,SEEK_SET);
 	struct produit tmp;
 	int tem=0;
 	while(tem!=-1 && (strcmp(tmp.identp,identp)!=0) ){
 		tem=read(fVoyages,&tmp,sizeof(Produit));
 	}
-	return atoi(tmp.nb_places_libres);
+	i = atoi(tmp.nb_places_libres);
+	return i;
 }
 
 
 int voy_places_max(int fVoyages,char* identp){
+	int i;
 	lseek(fVoyages,0,SEEK_SET);
 	struct produit tmp;
 	int tem=0;
 	while(tem!=-1 && (strcmp(tmp.identp,identp)!=0)){
 		tem=read(fVoyages,&tmp,sizeof(Produit));
 	}
-	return atoi(tmp.nb_max_places);
+	i = atoi(tmp.nb_max_places);
+	return i;
 }
 
 void maj_fvoyages(int fVoyages, int places){
