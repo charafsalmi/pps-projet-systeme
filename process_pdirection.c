@@ -20,9 +20,9 @@ int main(int nbarg, char *tbarg[])
 	 */
 	pipe(Tadmin_accueil);
 	pipe(Taccu_guichet);
-	char* param1;
-	char* param2;
-	char* param3;
+	char param1[256];
+	char param2[256];
+	char param3[256];
 	if((pidAccueil = fork()) < 0)
 	{
 		perror("Erreur dans la création du processus Paccueil.");
@@ -38,7 +38,8 @@ int main(int nbarg, char *tbarg[])
 			sprintf(param2, "%d", Taccu_guichet[0]);
 			sprintf(param3, "%d", Taccu_guichet[1]);
 			close(Tadmin_accueil[1]);
-			if(execl("paccueil","paccueil",param1, param2, param3, tbarg[2], tbarg[3], NULL)==-1)
+			 printf("%d\n",atoi(tbarg[4]));
+			if(execl("paccueil","paccueil",param1, param2, param3, tbarg[3], tbarg[4], NULL)==-1)
 			{
 				printf("Erreur de lancement de l'execl paccueil\n");
 			}
@@ -64,10 +65,12 @@ int main(int nbarg, char *tbarg[])
 			close(Taccu_guichet[1]);
 			sprintf(param1, "%d",Tadmin_accueil[1]);
 			sprintf(param2, "%d", pidAccueil);
-			if (execl("padmin","padmin", tbarg[1], param1, param2, NULL)==-1) 
-			{ 
+			printf("%s\n", tbarg[2]);
+			execl("padmin","padmin", tbarg[2], param1, param2, (char*)NULL);
+			 
 				printf("Erreur de lancement de l'execl padmin\n");
-			}
+				printf("erreur : %s\n",strerror(errno));
+			exit(8);
 		}
 	int e;
 	wait(&e);
