@@ -134,13 +134,13 @@ int main(int nbarg , char* tbarg[]){
 				case 'C':
 				{
 					printf("creation : \n");
-					creation_voyage(Tab_trans);
+					creation_voyage(Tab_trans, /*tbarg[2]*/);
 					break;
 				}
 				case 'F':
 				{
 					printf("cloture : \n");
-					sup_voyage(Tab_trans.identp);
+					sup_voyage(Tab_trans.identp, /*tbarg[2]*/);
 					break;
 				}
 			}
