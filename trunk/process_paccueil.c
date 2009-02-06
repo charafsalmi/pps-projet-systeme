@@ -53,8 +53,8 @@ int main(int nbarg, char *tbarg[])
 				/*
 				 * Bienvenue dans le processus fils Pguichet[i]
 				 */
-				//execl("pguichet", "pguichet", i, Taccu_guichet[0], NULL);
-				//exit(1);
+				execl("pguichet", "pguichet", i, Taccu_guichet[0], NULL);
+				exit(1);
 			}
 	}
 
@@ -78,12 +78,16 @@ int main(int nbarg, char *tbarg[])
 	lseek(fTransac, 0, SEEK_SET);
 
 	//lire les transactions
-	while(read(fTransac,&t, sizeof(t)))
+	while(read(fTransac,&t, sizeof(transaction)))
 	{
 		/*
 		 * Traitement du signal
 		 */
 		//Tester que si on reçoit un signal
+		//Si on reçoit un voyage
+			//Si le voyage correspond à un voyage en attente
+				//On écrit dans le tube les transactions en attente
+				//correspondantes à ce voyage
 
 		/*
 		 * Traitement de la transaction en cours
@@ -94,7 +98,8 @@ int main(int nbarg, char *tbarg[])
 			//vérifier l'existance du voyage dans fVoyage
 			if(chercher_dans_fVoyage(t.identp))
 			{
-				//Ecrire la transaction dans le tube
+				//Ecrire la transaction dans le tube tAccu-guichet
+				write(tbarg[2], t, sizeof(transaction));
 			}
 			else
 			{
