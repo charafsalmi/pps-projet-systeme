@@ -98,15 +98,29 @@ int main(int nbarg, char *tbarg[])
 			//vérifier l'existance du voyage dans fVoyage
 			if(chercher_dans_fVoyage(t.identp))
 			{
-				//Ecrire la transaction dans le tube tAccu-guichet
-				write(tbarg[2], t, sizeof(transaction));
+				//Si il existe
+					//Ecrire la transaction dans le tube tAccu-guichet
+				write(tbarg[2], &t, sizeof(transaction));
 			}
 			else
 			{
 				//Si il n'existe pas
 					//C'est la première réservation
 					//L'ajouter dans le fichier créé Reservation/[t.identp].fa
+				int f;
+				f = open(strcat(strcat("Reservation/", t.identp), ".fa"), O_WRONLY | O_CREAT,S_IRWXU);
+				lseek(f, 0, SEEK_END);
+				write (f, &t, sizeof(transaction));
+				close(f);
 					//Incrémenter le fichier créé ACreer/[t.identp].desc
+				int desc;
+				f = open(strcat(strcat("ACreer/", t.identp), ".desc"), O_RDWR | O_CREAT);
+				lseek(f, 0, SEEK_SET);
+				read (f, &desc, sizeof(int));
+				desc++;
+				write(f, &desc, sizeof(int));
+				close(f);
+
 			}
 		}
 	}
