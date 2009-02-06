@@ -133,14 +133,12 @@ int main(int nbarg , char* tbarg[]){
 				//Creation
 				case 'C':
 				{
-					printf("creation : \n");
-					creation_voyage(Tab_trans, /*tbarg[2]*/);
+					creation_voyage(Tab_trans/*, tbarg[2]*/);
 					break;
 				}
 				case 'F':
 				{
-					printf("cloture : \n");
-					sup_voyage(Tab_trans.identp, /*tbarg[2]*/);
+					sup_voyage(Tab_trans.identp/*, tbarg[2]*/);
 					break;
 				}
 			}
@@ -149,7 +147,7 @@ int main(int nbarg , char* tbarg[]){
 		}
 		else
 		{
-			printf("erreur de lecture \n");
+			printf("Fin de lecture (ou erreur)\n");
 			finAdmin=1;
 		}
 
