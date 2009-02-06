@@ -76,7 +76,7 @@ int main(int nbarg, char *tbarg[])
         /*
          * Début du programme
          */
-	/*
+	
 	struct transaction trcli;
 	//Déclarations fichiers
 	int fVoyages;
@@ -169,7 +169,7 @@ int main(int nbarg, char *tbarg[])
 	}
 	close(fVoyages);
 	close(fTransac);
-	*/
+	
 
 	
 
