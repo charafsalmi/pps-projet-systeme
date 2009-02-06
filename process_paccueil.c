@@ -9,18 +9,19 @@
 
 int chercher_dans_fVoyage(char* Voyage)
 {
-	Produit p;
+	struct produit p;
 	int f, g;
 
-	if(f = open("fVoyages", O_RDWR) < 0)
+	if((f = open("fVoyages", O_RDONLY)) < 0)
 	{
 		perror("Impossible d'ouvrir fVoyages. \n");
 		exit(1);
 	}
 
-	while(read(f, &p, sizeof(p)))
+	while(read(f, &p, sizeof(Produit)))
 	{
-		printf("Voyage : %s \n", p.identp);
+		if(!strcmp(p.identp, Voyage))
+			return 1;
 	}
 
 	close(f);
@@ -29,10 +30,6 @@ int chercher_dans_fVoyage(char* Voyage)
 
 int main(int nbarg, char *tbarg[])
 {
-
-	chercher_dans_fVoyage("fVoyages");
-	return 0;
-
 	int i = 0;
 	char* cbuffer;
 
@@ -56,8 +53,8 @@ int main(int nbarg, char *tbarg[])
 				/*
 				 * Bienvenue dans le processus fils Pguichet[i]
 				 */
-				execl("pguichet", "pguichet", i, Taccu_guichet[0], NULL);
-				exit(1);
+				//execl("pguichet", "pguichet", i, Taccu_guichet[0], NULL);
+				//exit(1);
 			}
 	}
 
@@ -95,6 +92,17 @@ int main(int nbarg, char *tbarg[])
 		if(t.code == 'C')
 		{
 			//vérifier l'existance du voyage dans fVoyage
+			if(chercher_dans_fVoyage(t.identp))
+			{
+				//Ecrire la transaction dans le tube
+			}
+			else
+			{
+				//Si il n'existe pas
+					//C'est la première réservation
+					//L'ajouter dans le fichier créé Reservation/[t.identp].fa
+					//Incrémenter le fichier créé ACreer/[t.identp].desc
+			}
 		}
 	}
 
