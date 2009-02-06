@@ -25,8 +25,9 @@ void creation_voyage(struct Transaction_Admin t/*, int pid*/){
 	p.nb_max_places = t.nb_max_places;
 	p.nb_places_libres = t.nb_max_places;
 	
-	flock(f,LOCK_EX);
+
 	f = open("fVoyages", O_RDWR | O_CREAT,S_IRWXU);
+	flock(f,LOCK_EX);
 	lseek(f, -sizeof(p), SEEK_END);
 	read(f, &tmp, sizeof(p));
 	if (strcmp(tmp.identp, " ")==0)
@@ -61,8 +62,9 @@ void creation_voyage(struct Transaction_Admin t/*, int pid*/){
 
 void sup_voyage(char* voy/*, int pid*/){
 	int f;
-	flock(f,LOCK_EX);
+	
 	f = open("fVoyages", O_RDWR);
+	flock(f,LOCK_EX);
 	lseek(f, 0, SEEK_SET);
 	int erreur=0;
 	Produit tmp;
@@ -142,7 +144,7 @@ int main(int nbarg , char* tbarg[]){
 					break;
 				}
 			}
-			printf("%s | %c | %d \n",Tab_trans.identp ,Tab_trans.code, Tab_trans.nb_max_places);
+			printf("%s - %c - %d \n",Tab_trans.identp ,Tab_trans.code, Tab_trans.nb_max_places);
 
 		}
 		else
