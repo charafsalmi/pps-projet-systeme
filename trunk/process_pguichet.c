@@ -18,10 +18,10 @@
 #include "type_definitions.h"
 int voy_places_act(int fVoyages,char* identp){
 	lseek(fVoyages,0,SEEK_SET);
-	Produit tmp;
+	struct produit tmp;
 	int tem=0;
 	while(tem!=-1 && (strcmp(tmp.identp,identp)!=0) ){
-		tem=read(fVoyages,&tmp,sizeof(Transaction));
+		tem=read(fVoyages,&tmp,sizeof(Produit));
 	}
 	return atoi(tmp.nb_places_libres);
 }
@@ -29,37 +29,40 @@ int voy_places_act(int fVoyages,char* identp){
 
 int voy_places_max(int fVoyages,char* identp){
 	lseek(fVoyages,0,SEEK_SET);
-	Produit tmp;
+	struct produit tmp;
 	int tem=0;
-	while(tem!=-1 && (strcmp(tmp.identp,identp)!=0) ){
-		tem=read(fVoyages,&tmp,sizeof(Transaction));
+	while(tem!=-1 && (strcmp(tmp.identp,identp)!=0)){
+		tem=read(fVoyages,&tmp,sizeof(Produit));
 	}
 	return atoi(tmp.nb_max_places);
 }
 
 void maj_fvoyages(int fVoyages, int places){
-	Produit tmp;
+	struct produit tmp;
 	lseek(fVoyages,-sizeof(Transaction),SEEK_CUR);
-	read(fVoyages,&tmp,sizeof(Transaction));
+	read(fVoyages,&tmp,sizeof(Produit));
 	tmp.nb_places_libres=places;
 	lseek(fVoyages,-sizeof(Transaction),SEEK_CUR);
-	write(fVoyages,&tmp,sizeof(Transaction));
+	write(fVoyages,&tmp,sizeof(Produit));
 }
 
 void supp_reserv(int fReserv,char* identu){
 	lseek(fReserv,0,SEEK_SET);
-	Reservation tmp;
-	int tem=0;
-	while(tem!=-1 && (strcmp(tmp.identu,identu)!=0) ){
+	struct reservation tmp;
+	int tem=read(fReserv,&tmp,sizeof(Reservation));
+	while(tem!=-1 && (strcmp(tmp.identu,identu)!=0)){
 		tem=read(fReserv,&tmp,sizeof(Reservation));
+		if (strcmp(tmp.identu, " ")==0)
+		{ tem=-1; }
 	}
 	while((read(fReserv,&tmp,sizeof(Reservation))) > 0){
 		lseek(fReserv,(-sizeof(Reservation))*2,SEEK_CUR);
 		write(fReserv,&tmp,sizeof(Reservation));
-		lseek(fReserv,(sizeof(Reservation))*2,SEEK_CUR);
+		lseek(fReserv,(sizeof(Reservation)),SEEK_CUR);
 	}
-	char* s=EOF;
-	write(fReserv,&s,sizeof(s));
+	strcpy(tmp.identu," ");
+	lseek(fReserv,-(sizeof(Reservation)),SEEK_CUR);
+	write(fReserv,&tmp,sizeof(Reservation));
 	
 }
 
@@ -69,7 +72,8 @@ int main(int nbarg, char *tbarg[])
         /*
          * Début du programme
          */
-	Transaction trcli;
+	/*
+	struct transaction trcli;
 	//Déclarations fichiers
 	int fVoyages;
 	int fReserv;
@@ -101,7 +105,7 @@ int main(int nbarg, char *tbarg[])
 				flock(fVoyages,LOCK_UN);
 				//On MAJ le fichier Voy.reserv
 				fReserv=open(nomFreserv,O_WRONLY | O_APPEND,S_IRWXU);
-				Reservation tmp;
+				struct reservation tmp;
 				strcpy(tmp.identu,trcli.identu);
 				tmp.nb_places=trcli.nb_places;
 				flock(fReserv,LOCK_EX);
@@ -115,7 +119,7 @@ int main(int nbarg, char *tbarg[])
 				flock(fVoyages,LOCK_UN);
 				//On MAJ le fichier Voy.fa
 				fFa=open(nomFfa,O_WRONLY | O_APPEND,S_IRWXU);
-				Reservation tmp;
+				struct reservation tmp;
 				strcpy(tmp.identu,trcli.identu);
 				tmp.nb_places=trcli.nb_places;
 				flock(fFa,LOCK_EX);
@@ -138,8 +142,8 @@ int main(int nbarg, char *tbarg[])
 			//On fait passer le contenu de Voy.fa à la fin de fTransactions_clients
 			fFa=open(nomFfa,O_RDWR,S_IRWXU);
 			flock(fFa,LOCK_EX);
-			Reservation Rtmp;
-			Transaction Ttmp;
+			struct reservation Rtmp;
+			struct transaction Ttmp;
 			flock(fTransac,LOCK_EX);
 			
 			while((read(fFa,&Rtmp,sizeof(Reservation))) > 0){
@@ -161,6 +165,7 @@ int main(int nbarg, char *tbarg[])
 	}
 	close(fVoyages);
 	close(fTransac);
+	*/
 
 	
 
