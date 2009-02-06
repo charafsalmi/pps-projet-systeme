@@ -69,11 +69,6 @@ typedef struct produit Produit;
  * Format d'une transaction client
  */
 struct transaction
-/*
- * Dans l'énoncé, je trouve super-idiot de déclarer "Reservation" (10 lettres)
- * et de déclarer "Transac" (7 lettres) plutôt que "Transaction" (11 lettres)…
- * Cohérence iut-debianique ?
- */
 {
 	/*
 	 * Nom du client
