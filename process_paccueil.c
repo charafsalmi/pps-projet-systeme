@@ -7,55 +7,39 @@
 
 #include "type_definitions.h"
 
-/*
- * L'accueil reçoit les clients, les oriente éventuellement vers les guichets
- * et affiche les réservations des voyages définitivement clos.
- */
+int chercher_dans_fVoyage(char* Voyage)
+{
+	Produit p;
+	int f, g;
 
-/*
-	L'accueil exploite le fichier fTransactions_clients pour y lire ce que veut
-	faire le client.
-	Si il s'agit d'une consultation, pAccueil écrit le nombre de place
-	disponibles ou non dans le terminal et un journal de bord.
+	if(f = open("fVoyages", O_RDWR) < 0)
+	{
+		perror("Impossible d'ouvrir fVoyages. \n");
+		exit(1);
+	}
 
-	L'accueil exploite aussi le fichier fVoyages qui contient un article par
-	voyage.
+	while(read(f, &p, sizeof(p)))
+	{
+		printf("Voyage : %s \n", p.identp);
+	}
 
- */
+	close(f);
+	return 0;
+}
 
 int main(int nbarg, char *tbarg[])
 {
-	struct sigaction sigFin, sigAdminCrea, sigAdminSuppr;
-	extern void journal(char*, int);
 
-	/*
-	 * Compteurs et buffers
-	 */
+	chercher_dans_fVoyage("fVoyages");
+	return 0;
+
 	int i = 0;
 	char* cbuffer;
 
 	/*
-	 * Paramètres
+	 * Création des guichets
 	 */
-	//Nombre de guichets voulus
-	int nb_guichets = 0;
-
-	/*
-	 * Début du programme
-	 */
-
-	//Signaux
-	sigFin.sa_handler=finAccueil;
-	sigFin.sa_flags=0;
-	sigFin.sa_restorer=NULL;
-	sigaction(SIGTERM,&sigFin,NULL);
-	sigAdminCrea.sa_handler=AdminCrea;
-	sigAdminCrea.sa_flags=0;
-	sigAdminCrea.sa_restorer=NULL;
-	sigaction(SIGUSR1,&sigAdminCrea,NULL);
-	sigAdminSuppr.sa_handler=AdminSuppr;
-	sigAdminSuppr.sa_flags=0;
-	sigAdminSuppr.sa_restorer=NULL;
+	int nb_guichets = 2; //argument de l'application
 
 	for(i = 0; i < nb_guichets; ++i)
 	{
@@ -72,9 +56,46 @@ int main(int nbarg, char *tbarg[])
 				/*
 				 * Bienvenue dans le processus fils Pguichet[i]
 				 */
-				//execl("process_guichet");
+				execl("pguichet", "pguichet", i, Taccu_guichet[0], NULL);
 				exit(1);
 			}
+	}
+
+	/*
+	 * Ouverture du fichier fTransactions_clients
+	 */
+
+	int fTransac;
+	if((fTransac = open("fTransactions_clients", O_RDONLY | O_CREAT,S_IRWXU)) < 0)
+	{
+		perror("Erreur d'ouverture du fichier 'fTransactions_clients'\n");
+		exit(errno);
+	}
+
+	/*
+	 * Traitement
+	 */
+	struct transaction t;
+
+	//se placer au début
+	lseek(fTransac, 0, SEEK_SET);
+
+	//lire les transactions
+	while(read(fTransac,&t, sizeof(t)))
+	{
+		/*
+		 * Traitement du signal
+		 */
+		//Tester que si on reçoit un signal
+
+		/*
+		 * Traitement de la transaction en cours
+		 */
+		//Si code = C
+		if(t.code == 'C')
+		{
+			//vérifier l'existance du voyage dans fVoyage
+		}
 	}
 
 	/*
