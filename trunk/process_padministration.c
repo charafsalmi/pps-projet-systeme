@@ -114,6 +114,8 @@ int main(int nbarg , char* tbarg[]){
 	finAdmin = 0;
 	struct sigaction sigCreve;
 
+	printf("Dans padmin\n");	
+	
 	sigCreve.sa_handler=argh;
 	sigCreve.sa_flags=0;
 	sigCreve.sa_restorer=NULL;
