@@ -32,26 +32,12 @@ int main(int nbarg, char *tbarg[])
 	{
 		printf("agence: usage: agence f<fichier1> f<fichier2> <nbguichet> \n");
 		printf("Options:\n");
-		printf("\tf<fichier1>\t\tChemin vers le fichier …\n");
-		printf("\tf<fichier2>\t\tChemin vers le fichier …\n");
+		printf("\t<fichier1>\t\tChemin vers le fichier …\n");
+		printf("\t<fichier2>\t\tChemin vers le fichier …\n");
 		printf("\t<nbguichet>\t\tNombre de guichets entre 1 et %d\n",
 				NB_max_guichets);
 		exit(1);
 	}
-
-	/*
-	 * Ouverture du fichier journal
-	 */
-
-	// Ouverture du fichier journal
-	if((fJournal = open("journal.txt", O_CREAT | O_WRONLY | O_TRUNC, 0644)) < 0)
-	{
-		perror("Impossible d'ouvrir le fichier journal.");
-		exit(1);
-	}
-	sprintf(flog,"%d",fJournal);
-	journal("DEBUT pDirection", fJournal);
-
 
 	/*
 	 * Ouverture des tubes
